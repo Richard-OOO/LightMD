@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="lightmd-token" content="__LIGHTMD_TOKEN__" />
+  <title>LightMD</title>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <div class="app">
+    <!-- Top Toolbar -->
+    <header class="toolbar">
+      <div class="tb-left">
+        <button id="btn-sidebar" class="icon-btn" title="切换侧边栏 (Ctrl+\)">
+          <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><line x1="9" y1="4" x2="9" y2="20"/></svg>
+        </button>
+        <button id="btn-back" class="icon-btn" title="返回上一篇 (Alt+←)" disabled>
+          <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <button id="btn-open" class="icon-btn" title="打开文件 (Ctrl+O)">
+          <svg viewBox="0 0 24 24"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+        </button>
+        <button id="btn-new" class="icon-btn" title="新建文档 (Ctrl+N)">
+          <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
+        </button>
+        <div id="file-pill" class="file-pill" title="点击在资源管理器中定位">
+          <span id="dirty-dot" class="dirty-dot" title="有未保存的修改"></span>
+          <span id="file-name" class="fname">LightMD</span>
+        </div>
+      </div>
+
+      <div class="tb-center">
+        <div class="mode-group" role="tablist" aria-label="视图模式">
+          <button class="mode-btn active" data-mode="read" title="阅读模式 (Ctrl+1)">阅读</button>
+          <button class="mode-btn" data-mode="edit" title="直接在渲染文档上编辑 (Ctrl+2 / Ctrl+E)">编辑</button>
+          <button class="mode-btn" data-mode="split" title="源码与预览分屏 (Ctrl+3)">源码分屏</button>
+        </div>
+      </div>
+
+      <div class="tb-right">
+        <button id="btn-save" class="icon-btn" title="保存 (Ctrl+S)">
+          <svg viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+          <span>保存</span>
+        </button>
+        <button id="btn-export-doc" class="icon-btn" title="导出为 Word 文档 (.doc)">
+          <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><path d="M9 13l1.5 5 1.5-3.5 1.5 3.5 1.5-5"/></svg>
+          <span>导出Word</span>
+        </button>
+        <button id="btn-print" class="icon-btn" title="打印 / 另存为 PDF (Ctrl+P)">
+          <svg viewBox="0 0 24 24"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+        </button>
+        <div class="tb-sep"></div>
+        <button id="btn-find" class="icon-btn" title="查找 (Ctrl+F)">
+          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        </button>
+        <button id="btn-font-dec" class="icon-btn" title="缩小字号 (Ctrl+-)">A-</button>
+        <button id="btn-font-inc" class="icon-btn" title="放大字号 (Ctrl+=)">A+</button>
+        <button id="btn-theme" class="icon-btn" title="切换主题（浅色 / 暖纸 / 暗色）">浅色</button>
+        <button id="btn-settings" class="icon-btn" title="设置与默认打开关联">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9c.26.6.85 1 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Format Bar (shown in Edit / Split) -->
+    <div id="format-bar" class="format-bar">
+      <button class="fmt-btn" data-fmt="h1">H1</button>
+      <button class="fmt-btn" data-fmt="h2">H2</button>
+      <button class="fmt-btn" data-fmt="h3">H3</button>
+      <div class="tb-sep"></div>
+      <button class="fmt-btn" data-fmt="bold" title="加粗 (Ctrl+B)"><b>B</b></button>
+      <button class="fmt-btn" data-fmt="italic" title="斜体 (Ctrl+I)"><i>I</i></button>
+      <button class="fmt-btn" data-fmt="strike"><s>S</s></button>
+      <button class="fmt-btn" data-fmt="code" title="行内代码 (Ctrl+`)">`代码`</button>
+      <div class="tb-sep"></div>
+      <button class="fmt-btn" data-fmt="quote">引用</button>
+      <button class="fmt-btn" data-fmt="ul">无序列表</button>
+      <button class="fmt-btn" data-fmt="ol">有序列表</button>
+      <button class="fmt-btn" data-fmt="task">待办项</button>
+      <button class="fmt-btn" data-fmt="codeblock">代码块</button>
+      <button class="fmt-btn" data-fmt="table">表格</button>
+      <button class="fmt-btn" data-fmt="table-row" title="在当前表格下方插入一行">+行</button>
+      <button class="fmt-btn" data-fmt="table-col" title="在当前表格右侧插入一列">+列</button>
+      <button class="fmt-btn" data-fmt="link" title="链接 (Ctrl+K)">链接</button>
+      <button class="fmt-btn" data-fmt="hr">分割线</button>
+      <div class="tb-sep"></div>
+      <button id="btn-save-as" class="fmt-btn" title="另存为 (Ctrl+Shift+S)">另存为…</button>
+    </div>
+
+    <!-- Main Workspace -->
+    <div class="workspace">
+      <!-- Sidebar -->
+      <aside id="sidebar" class="sidebar collapsed">
+        <div class="sb-tabs">
+          <button class="sb-tab active" data-tab="toc">大纲</button>
+          <button class="sb-tab" data-tab="files">同目录</button>
+        </div>
+        <div id="sb-toc" class="sb-body"></div>
+        <div id="sb-files" class="sb-body" style="display:none"></div>
+      </aside>
+
+      <!-- Editor + Preview -->
+      <main id="main-area" class="main-area mode-read">
+        <!-- Floating Find Bar -->
+        <div id="find-bar" class="find-bar">
+          <input id="find-input" type="text" placeholder="在文档中查找…" />
+          <span id="find-count" class="find-count">0/0</span>
+          <button id="find-prev" class="icon-btn" title="上一个 (Shift+Enter)">↑</button>
+          <button id="find-next" class="icon-btn" title="下一个 (Enter)">↓</button>
+          <button id="find-close" class="icon-btn" title="关闭 (Esc)">✕</button>
+        </div>
+
+        <section class="editor-pane">
+          <textarea id="editor" spellcheck="false" placeholder="在这里输入 Markdown 内容…"></textarea>
+        </section>
+
+        <section id="preview-pane" class="preview-pane">
+          <article id="preview" class="markdown-body"></article>
+          <div id="welcome" class="welcome" style="display:none">
+            <div class="welcome-hero">
+              <div class="welcome-logo">MD</div>
+              <h1>LightMD</h1>
+              <p>轻量、即时启动的本地 Markdown 阅读与编辑工具</p>
+            </div>
+            <div id="welcome-install" class="assoc-banner" style="display:none">
+              <span id="welcome-install-text">将 LightMD 安装为 Windows 桌面应用（生成桌面、开始菜单图标，支持右键新建 Markdown）</span>
+              <button id="btn-welcome-install" class="btn btn-accent">安装为桌面应用</button>
+            </div>
+            <div id="welcome-assoc" class="assoc-banner" style="display:none">
+              <span id="welcome-assoc-text">设为默认打开方式后，双击任意 <code>.md</code> 文件即可直接阅读与编辑</span>
+              <button id="btn-welcome-assoc" class="btn btn-accent">一键关联 .md</button>
+            </div>
+            <div class="welcome-actions">
+              <button id="btn-welcome-open" class="btn btn-accent">打开 Markdown 文件 (Ctrl+O)</button>
+              <button id="btn-welcome-new" class="btn">新建文档 (Ctrl+N)</button>
+            </div>
+            <div id="welcome-recent" class="recent-box"></div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <!-- Bottom Status Bar -->
+    <footer class="statusbar">
+      <div class="sb-left">
+        <span id="status-path" class="sb-path">就绪</span>
+        <button id="btn-reload-ext" class="reload-pill">文件已在外部修改 · 点击重新加载</button>
+      </div>
+      <div class="sb-right">
+        <span id="status-cursor" style="display:none">行 1, 列 1</span>
+        <span id="status-words">0 字</span>
+        <span id="status-readtime"></span>
+        <span>UTF-8</span>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Settings Popover -->
+  <div id="settings-popover" class="popover">
+    <div class="pop-sec">
+      <div class="pop-title">桌面应用安装</div>
+      <div class="pop-row">
+        <span id="install-status-label">检查中…</span>
+        <button id="btn-install-toggle" class="btn btn-accent" style="padding:4px 10px;font-size:12px">安装到桌面</button>
+      </div>
+    </div>
+    <div class="pop-hr"></div>
+    <div class="pop-sec">
+      <div class="pop-title">文件关联（双击 .md 直接打开）</div>
+      <div class="pop-row">
+        <span id="assoc-status-label">检查中…</span>
+        <button id="btn-assoc-toggle" class="btn btn-accent" style="padding:4px 10px;font-size:12px">设为默认</button>
+      </div>
+      <div id="assoc-hint" class="pop-note" style="display:none"></div>
+      <button id="btn-open-win-defaults" class="btn" style="display:none;padding:5px 10px;font-size:12px">打开 Windows 默认应用设置</button>
+    </div>
+    <div class="pop-hr"></div>
+    <div class="pop-sec">
+      <div class="pop-title">阅读与导出</div>
+      <div class="pop-row">
+        <span>Word 纸张页面视图</span>
+        <input id="chk-page-view" type="checkbox" />
+      </div>
+      <div class="pop-row">
+        <span>宽屏阅读模式</span>
+        <input id="chk-wide" type="checkbox" />
+      </div>
+      <div class="pop-row">
+        <span>导出独立网页 (.html)</span>
+        <button id="btn-export-html" class="btn" style="padding:4px 10px;font-size:12px">导出 HTML</button>
+      </div>
+      <div class="pop-row">
+        <span>在资源管理器中显示当前文件</span>
+        <button id="btn-reveal" class="btn" style="padding:4px 10px;font-size:12px">打开目录</button>
+      </div>
+    </div>
+    <div class="pop-hr"></div>
+    <div class="pop-sec">
+      <div class="pop-title">常用快捷键</div>
+      <div class="kbd-list">
+        <span>切换阅读 / 分屏编辑</span><kbd>Ctrl + E</kbd>
+        <span>打开文件 / 新建</span><span><kbd>Ctrl+O</kbd> / <kbd>Ctrl+N</kbd></span>
+        <span>保存 / 另存为</span><span><kbd>Ctrl+S</kbd> / <kbd>Ctrl+Shift+S</kbd></span>
+        <span>切换大纲与目录侧边栏</span><kbd>Ctrl + \</kbd>
+        <span>页内搜索</span><kbd>Ctrl + F</kbd>
+        <span>字号缩放</span><span><kbd>Ctrl+=</kbd> / <kbd>Ctrl+-</kbd></span>
+        <span>返回上一篇 MD</span><kbd>Alt + ←</kbd>
+      </div>
+    </div>
+  </div>
+
+  <div id="drop-overlay" class="drop-overlay">松开鼠标即可打开 Markdown 文件</div>
+  <div id="toast" class="toast"></div>
+
+  <script src="/marked.min.js"></script>
+  <script src="/highlight.js"></script>
+  <script src="/md-serializer.js"></script>
+  <script src="/app.js"></script>
+</body>
+</html>
